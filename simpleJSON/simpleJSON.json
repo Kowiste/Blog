@@ -1,0 +1,71 @@
+{
+  "billetes": {
+    "5": "gris",
+    "10": "rojo",
+    "20": "azul",
+    "50": "naranja",
+    "100": "verde",
+    "200": "amarillo",
+    "500": "gris"
+  },
+  "banco": "Santander",
+  "Empresa": {
+    "CIF": "B655923",
+    "Nombre": "Preta SL",
+    "Empleados": [
+      566535993,
+      298487979,
+      38787877
+    ]
+  },
+  "Cliente": [
+    {
+      "id": 566535993,
+      "nombre": "Pedro",
+      "apellidos": "Martinez Perez",
+      "edad": 50,
+      "ciudad": "Madrid",
+      "Viajes": {
+        "Nueva York": 1,
+        "Berlin": 3,
+        "Singapur": 2
+      }
+    },
+    {
+      "id": 566535993,
+      "nombre": "Pedro",
+      "apellidos": "Martinez Perez",
+      "edad": 50,
+      "ciudad": "Madrid",
+      "Viajes": {
+        "Nueva York": 1,
+        "Berlin": 3,
+        "Singapur": 2
+      }
+    },
+    {
+      "id": 38787877,
+      "nombre": "Paloma",
+      "apellidos": "Barrio Garcia",
+      "edad": 30,
+      "ciudad": "Madrid",
+      "Viajes": {
+        "Bangkok": 5,
+        "Roma": 2,
+        "Atenas": 1
+      }
+    },
+    {
+      "id": 298487979,
+      "nombre": "Alfonso",
+      "apellidos": "Suarez Sanchez",
+      "edad": 42,
+      "ciudad": "Albacete",
+      "Viajes": {
+        "Mexico DF": 6,
+        "Santiago de Chile": 4,
+        "Tampa": 2
+      }
+    }
+  ]
+}
