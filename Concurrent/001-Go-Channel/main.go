@@ -4,8 +4,8 @@ import "time"
 
 func main() {
 	println("Begin")
-	go nostop()
-	//withChannel()
+	//go nostop()
+	withChannel()
 	//oneWayChannel()
 	//timerChannel()
 }
@@ -21,6 +21,7 @@ func withChannel() {
 
 }
 func stop(ch chan string) {
+	println("going to stop")
 	ch <- ""
 }
 
