@@ -5,7 +5,7 @@ Concurrent
     -Cocurrent programming
 
     >001-Go-Channel
-        sdfhsid
+        Example program with different ways to use channel 
 
 JSON
     -Program about JSON
