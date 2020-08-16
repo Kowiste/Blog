@@ -3,18 +3,26 @@ package main
 import (
 	"encoding/json"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/gorilla/mux"
 )
 
 var elements map[string]int
+var client string
 
 func main() {
 	handler := createHandler()
 	elements = make(map[string]int)
-	http.ListenAndServe(":8080", handler)
+	go http.ListenAndServe(":8080", handler)
+	log.Println("Server Ready in 8080")
+	for {
+		time.Sleep(500)
+	}
+
 }
 
 func createHandler() *mux.Router {
@@ -39,8 +47,11 @@ func apiAdd(w http.ResponseWriter, r *http.Request) {
 	err := json.Unmarshal(reqBody, &temp)
 	if err != nil {
 		resp = APIResponse{
-			Message: err.Error(),
-			Code:    400,
+			createHeader(),
+			BodyResponse{
+				Message: err.Error(),
+			},
+			//Code:    400,
 		}
 	} else {
 		present := false
@@ -55,14 +66,20 @@ func apiAdd(w http.ResponseWriter, r *http.Request) {
 		}
 		if present {
 			resp = APIResponse{
-				Message: "The result is " + strconv.Itoa(add),
-				Code:    200,
+				createHeader(),
+				BodyResponse{
+					Message: "The result is " + strconv.Itoa(add),
+				},
 			}
+			w.WriteHeader(http.StatusOK)
 		} else {
 			resp = APIResponse{
-				Message: "element doesnt exist ",
-				Code:    200,
+				createHeader(),
+				BodyResponse{
+					Message: "element doesnt exist ",
+				},
 			}
+			w.WriteHeader(http.StatusNotFound)
 		}
 
 	}
@@ -76,9 +93,12 @@ func apiSub(w http.ResponseWriter, r *http.Request) {
 	err := json.Unmarshal(reqBody, &temp)
 	if err != nil {
 		resp = APIResponse{
-			Message: err.Error(),
-			Code:    400,
+			createHeader(),
+			BodyResponse{
+				Message: err.Error(),
+			},
 		}
+		w.WriteHeader(http.StatusNotFound)
 	} else {
 		present := false
 		add := 0
@@ -92,14 +112,19 @@ func apiSub(w http.ResponseWriter, r *http.Request) {
 		}
 		if present {
 			resp = APIResponse{
-				Message: "The result is " + strconv.Itoa(add),
-				Code:    200,
+				createHeader(),
+				BodyResponse{
+					Message: "The result is " + strconv.Itoa(add),
+				},
 			}
 			w.WriteHeader(http.StatusOK)
 		} else {
+
 			resp = APIResponse{
-				Message: "element doesnt exist ",
-				Code:    404,
+				createHeader(),
+				BodyResponse{
+					Message: "element doesnt exist ",
+				},
 			}
 			w.WriteHeader(http.StatusNotFound)
 
@@ -115,18 +140,24 @@ func apiSetElement(w http.ResponseWriter, r *http.Request) {
 	temp := make(map[string]int)
 	err := json.Unmarshal(reqBody, &temp)
 	if err != nil {
+
 		resp = APIResponse{
-			Message: err.Error(),
-			Code:    400,
+			createHeader(),
+			BodyResponse{
+				Message: err.Error(),
+			},
 		}
 		w.WriteHeader(http.StatusBadRequest)
 	} else {
 		for elem := range temp {
 			elements[elem] = temp[elem]
 		}
+
 		resp = APIResponse{
-			Message: "Data Storage",
-			Code:    200,
+			createHeader(),
+			BodyResponse{
+				Message: "Data Storage",
+			},
 		}
 		w.WriteHeader(http.StatusOK)
 	}
@@ -139,15 +170,23 @@ func apiGetElement(w http.ResponseWriter, r *http.Request) {
 	element := params["name"]
 	value, exist := elements[element]
 	if exist {
+
 		resp = APIResponse{
-			Message: "Element " + element + " is " + strconv.Itoa(value),
-			Code:    200,
+			createHeader(),
+			BodyResponse{
+				Message: "Element " + element + " is " + strconv.Itoa(value),
+			},
 		}
+		w.WriteHeader(http.StatusOK)
 	} else {
+
 		resp = APIResponse{
-			Message: "Element " + element + " dont exist ",
-			Code:    404,
+			createHeader(),
+			BodyResponse{
+				Message: "Element " + element + " dont exist ",
+			},
 		}
+		w.WriteHeader(http.StatusNotFound)
 	}
 
 	json.NewEncoder(w).Encode(resp)
@@ -163,23 +202,34 @@ func apiUpdateElement(w http.ResponseWriter, r *http.Request) {
 	temp := make(map[string]int)
 	err := json.Unmarshal(reqBody, &temp)
 	if err != nil {
+
 		resp = APIResponse{
-			Message: err.Error(),
-			Code:    400,
+			createHeader(),
+			BodyResponse{
+				Message: err.Error(),
+			},
 		}
 		w.WriteHeader(http.StatusBadRequest)
 	} else {
 		if exist {
 			elements[element] = value
+
 			resp = APIResponse{
-				Message: "Element " + element + " is " + strconv.Itoa(value),
-				Code:    200,
+				createHeader(),
+				BodyResponse{
+					Message: "Element " + element + " is " + strconv.Itoa(value),
+				},
 			}
+			w.WriteHeader(http.StatusOK)
 		} else {
+
 			resp = APIResponse{
-				Message: "Element " + element + " dont exist ",
-				Code:    404,
+				createHeader(),
+				BodyResponse{
+					Message: "Element " + element + " dont exist ",
+				},
 			}
+			w.WriteHeader(http.StatusNotFound)
 		}
 	}
 
@@ -195,14 +245,21 @@ func apiDeleteElement(w http.ResponseWriter, r *http.Request) {
 	if exist {
 		delete(elements, element)
 		w.WriteHeader(http.StatusOK)
+
 		resp = APIResponse{
-			Message: "Element " + element + " deleted ",
-			Code:    200,
+			createHeader(),
+			BodyResponse{
+				Message: "Element " + element + " deleted ",
+			},
 		}
+		w.WriteHeader(http.StatusOK)
 	} else {
+
 		resp = APIResponse{
-			Message: "Element " + element + " dont exist ",
-			Code:    404,
+			createHeader(),
+			BodyResponse{
+				Message: "Element " + element + " dont exist ",
+			},
 		}
 		w.WriteHeader(http.StatusNotFound)
 	}
@@ -210,8 +267,26 @@ func apiDeleteElement(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(resp)
 }
 
+func createHeader() HeaderResponse {
+	return HeaderResponse{
+		Client: client,
+		Time:   time.Now().UTC().String(),
+	}
+}
+
 //APIResponse response
 type APIResponse struct {
+	Header HeaderResponse
+	BodyResponse
+}
+
+//HeaderResponse header of the response
+type HeaderResponse struct {
+	Client string
+	Time   string
+}
+
+//BodyResponse body of the response
+type BodyResponse struct {
 	Message string
-	Code    int
 }
