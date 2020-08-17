@@ -40,10 +40,11 @@ func createHandler() *mux.Router {
 
 //FUNCTION FOR THE API
 func apiAdd(w http.ResponseWriter, r *http.Request) {
+	log.Println("[Add Request] from: ", r.RemoteAddr)
 	resp := APIResponse{}
 	w.Header().Set("Content-Type", "application/json")
 	reqBody, _ := ioutil.ReadAll(r.Body)
-	temp := make(map[string]int)
+	temp := make([]string, 0)
 	err := json.Unmarshal(reqBody, &temp)
 	if err != nil {
 		resp = APIResponse{
@@ -51,18 +52,19 @@ func apiAdd(w http.ResponseWriter, r *http.Request) {
 			BodyResponse{
 				Message: err.Error(),
 			},
-			//Code:    400,
 		}
+		w.WriteHeader(http.StatusBadRequest)
 	} else {
 		present := false
+		val := 0
 		add := 0
+		
 		for elem := range temp {
-			val, present := elements[elem]
+			val, present = elements[temp[elem]]
 			if !present {
 				break
 			}
 			add += val
-
 		}
 		if present {
 			resp = APIResponse{
@@ -86,10 +88,11 @@ func apiAdd(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(resp)
 }
 func apiSub(w http.ResponseWriter, r *http.Request) {
+	log.Println("[Sub Request] from: ", r.RemoteAddr)
 	resp := APIResponse{}
 	w.Header().Set("Content-Type", "application/json")
 	reqBody, _ := ioutil.ReadAll(r.Body)
-	temp := make(map[string]int)
+	temp := make([]string, 0)
 	err := json.Unmarshal(reqBody, &temp)
 	if err != nil {
 		resp = APIResponse{
@@ -101,39 +104,52 @@ func apiSub(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusNotFound)
 	} else {
 		present := false
+		val := 0
 		add := 0
-		for elem := range temp {
-			val, present := elements[elem]
-			if !present {
-				break
+		if len(temp) == 2 {
+			arr := make([]int, 0)
+			for elem := range temp {
+				val, present = elements[temp[elem]]
+				if !present {
+					break
+				}
+				arr = append(arr, val)
 			}
-			add -= val
 
-		}
-		if present {
-			resp = APIResponse{
-				createHeader(),
-				BodyResponse{
-					Message: "The result is " + strconv.Itoa(add),
-				},
+			if present {
+				add = arr[0] - arr[1]
+				resp = APIResponse{
+					createHeader(),
+					BodyResponse{
+						Message: "The result is " + strconv.Itoa(add),
+					},
+				}
+				w.WriteHeader(http.StatusOK)
+			} else {
+
+				resp = APIResponse{
+					createHeader(),
+					BodyResponse{
+						Message: "element doesnt exist ",
+					},
+				}
+				w.WriteHeader(http.StatusNotFound)
+
 			}
-			w.WriteHeader(http.StatusOK)
 		} else {
-
 			resp = APIResponse{
 				createHeader(),
 				BodyResponse{
-					Message: "element doesnt exist ",
+					Message: "Error more than 2 element",
 				},
 			}
-			w.WriteHeader(http.StatusNotFound)
-
+			w.WriteHeader(http.StatusBadRequest)
 		}
-
 	}
 	json.NewEncoder(w).Encode(resp)
 }
 func apiSetElement(w http.ResponseWriter, r *http.Request) {
+	log.Println("[Set Request] from: ", r.RemoteAddr)
 	resp := APIResponse{}
 	w.Header().Set("Content-Type", "application/json")
 	reqBody, _ := ioutil.ReadAll(r.Body)
@@ -164,6 +180,7 @@ func apiSetElement(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(resp)
 }
 func apiGetElement(w http.ResponseWriter, r *http.Request) {
+	log.Println("[Get Request] from: ", r.RemoteAddr)
 	resp := APIResponse{}
 	w.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(r)
@@ -190,14 +207,14 @@ func apiGetElement(w http.ResponseWriter, r *http.Request) {
 	}
 
 	json.NewEncoder(w).Encode(resp)
-
 }
 func apiUpdateElement(w http.ResponseWriter, r *http.Request) {
+	log.Println("[Update Request] from: ", r.RemoteAddr)
 	resp := APIResponse{}
 	w.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(r)
 	element := params["name"]
-	value, exist := elements[element]
+	_, exist := elements[element]
 	reqBody, _ := ioutil.ReadAll(r.Body)
 	temp := make(map[string]int)
 	err := json.Unmarshal(reqBody, &temp)
@@ -212,12 +229,12 @@ func apiUpdateElement(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 	} else {
 		if exist {
-			elements[element] = value
+			elements[element] = temp[element]
 
 			resp = APIResponse{
 				createHeader(),
 				BodyResponse{
-					Message: "Element " + element + " is " + strconv.Itoa(value),
+					Message: "Element " + element + " is " + strconv.Itoa(elements[element]),
 				},
 			}
 			w.WriteHeader(http.StatusOK)
@@ -232,11 +249,10 @@ func apiUpdateElement(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusNotFound)
 		}
 	}
-
 	json.NewEncoder(w).Encode(resp)
-
 }
 func apiDeleteElement(w http.ResponseWriter, r *http.Request) {
+	log.Println("[Delete Request] from: ", r.RemoteAddr)
 	resp := APIResponse{}
 	w.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(r)
