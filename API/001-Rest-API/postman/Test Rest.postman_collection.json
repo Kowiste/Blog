@@ -1,0 +1,526 @@
+{
+	"info": {
+		"_postman_id": "186dc089-f730-45e4-b8db-32bcd350deeb",
+		"name": "Test Rest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Bad Add",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f7d250d2-c0d1-4ea8-96fe-66e981c64778",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"num1\": 12,\r\n    \"num2\":23\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/add",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Bad Sub",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b220678c-9cd2-4108-9e86-d1606b5ef5a5",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"num1\": 12,\r\n    \"num2\":23\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/sub",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"sub"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Bad Get Element",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "146ceec8-2aef-4672-8077-d349b0e8c40b",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/element/num10",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"element",
+						"num10"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Bad Update Element",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "87d8775a-b347-483c-bce9-c67a208ab586",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/element/num1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"element",
+						"num1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Bad Delete Element",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "664cbc3a-e5cf-4c66-aa23-54ca688e6487",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/element/num10",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"element",
+						"num10"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Bad Set Element",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d224db70-edea-468e-8950-9ab2eb3984d8",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"334\":\"dsgtf\",\r\n    \"num2\": 23\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/element",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"element"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set Element",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "70125c5c-9391-4778-ab42-520288df40e7",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"num1\": 45,\r\n    \"num2\": 23\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/element",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"element"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e2d9de0e-47c8-4bfc-b62b-d1e7263b36b3",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n  \"num1\",\r\n  \"num2\"\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/add",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sub",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "85ad3ada-e949-404b-8808-4a5fc05ed91b",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n  \"num1\",\r\n  \"num2\"\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/sub",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"sub"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Element",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "66c59a5d-6358-4f65-a774-0841ab8a41f0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"num1\": 60\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/element/num1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"element",
+						"num1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Element",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d1acbada-25eb-4d7e-8a2b-da8266e79052",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/element/num1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"element",
+						"num1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Element",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0827e601-b4c7-4923-8194-81a3638b5e76",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/element/num1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"element",
+						"num1"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
